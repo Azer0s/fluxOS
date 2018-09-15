@@ -25,7 +25,7 @@ kernel:
 	@echo
 	@echo "\033[4m\033[1mBuilding kernel\033[0m"
 	@echo
-	@gcc -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -c -o $(KERNEL) $(KERNEL_SRC)
+	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -c -o $(KERNEL) $(KERNEL_SRC)
 
 loader:
 	@echo
