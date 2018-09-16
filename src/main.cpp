@@ -1,15 +1,55 @@
 #include <common/types.h>
+#include <core/gdt.h>
+
+// Woooh! This is our first OS feature we implement: printing!
+// 0xb8000 is the x86 register for Text-Screen-VRAM. When we shift bits into it,
+// It will try to show said bits on the screen (no matter if these are
+// ASCII or binary)
+uint16_t* vbuffer = (uint16_t*)0xb8000;
+uint8_t x = 0, y = 0; //cursor
+
+void newLine(){
+    y++;
+    x = 0;
+}
+
+void clear(){
+    for(y = 0; y < 25; y++){
+        for(x = 0; x < 80; x++){
+            vbuffer[80*y+x] = (vbuffer[80*y+x] & 0xFF00) | ' ';
+        }
+    }
+
+    x = 0;
+    y = 0;
+}
 
 void printf(char* str)
 {
-    // Woooh! This is our first OS feature we implement: printing!
-    // 0xb8000 is the x86 register for Text-Screen-VRAM. When we shift bits into it,
-    // It will try to show said bits on the screen (no matter if these are
-    // ASCII or binary)
-    static uint16_t* vbuffer = (uint16_t*)0xb8000;
-
     for(int i = 0; str[i] != '\0'; ++i){
-        vbuffer[i] = (vbuffer[i] & 0xFF00) | str[i];
+
+        switch(str[i]){
+            case '\n':
+                newLine();
+                break;
+            
+            case '\t':
+                x += 4;
+                break;
+
+            default:
+                vbuffer[80*y+x] = (vbuffer[80*y+x] & 0xFF00) | str[i];
+                x++;
+                break;
+        }
+
+        if(x >= 80){
+            newLine();
+        }
+
+        if(y >= 25){
+            clear();
+        }
     }
 }
 
@@ -33,7 +73,11 @@ extern "C" void ctor_init(){
 }
 
 extern "C" void __main__(const void* multiboot_struct, uint32_t /*multiboot magic*/){
-    printf("Hello world!                       ");
+    clear();
+    printf("Hello\tworld!\n");
+    printf("Hello\tworld!\n");
+
+    GlobalDescriptorTable gdt;
 
     while(1);
 }
