@@ -2,9 +2,7 @@
 #include <core/gdt.h>
 
 // Woooh! This is our first OS feature we implement: printing!
-// 0xb8000 is the x86 register for Text-Screen-VRAM. When we shift bits into it,
-// It will try to show said bits on the screen (no matter if these are
-// ASCII or binary)
+// 0xb8000 is the x86 register for Text-Screen-VRAM.
 uint16_t* vbuffer = (uint16_t*)0xb8000;
 uint8_t x = 0, y = 0; //cursor
 
