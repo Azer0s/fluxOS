@@ -8,7 +8,7 @@ before_install:
 
 script:
   - make clear
-	- make kernel
-	- make loader
-	- make link
-	- make iso
+  - make kernel
+  - make loader
+  - make link
+  - make iso
