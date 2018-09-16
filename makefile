@@ -4,7 +4,10 @@ LINKER_SRC = src/linker.ld
 
 OBJECTS = bin/main.o \
 bin/core/gdt.o \
-bin/com/port.o
+bin/com/port.o \
+bin/lib/memcpy.o \
+bin/lib/memset.o \
+bin/lib/memsetw.o
 		
 
 all:
@@ -23,6 +26,7 @@ clear:
 	@mkdir bin
 	@mkdir bin/core
 	@mkdir bin/com
+	@mkdir bin/lib
 
 kernel:
 	@echo
@@ -35,6 +39,9 @@ bin/%.o: src/%.cpp
 
 bin/%.o: src/%.s
 	@as --32 -o $@ $<
+
+bin/%.o: src/%.asm
+	@nasm -o $@ $< -f elf -F dwarf -g
 
 loader:
 	@echo
