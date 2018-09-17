@@ -7,7 +7,9 @@ bin/core/gdt.o \
 bin/com/port.o \
 bin/lib/memcpy.o \
 bin/lib/memset.o \
-bin/lib/memsetw.o
+bin/lib/memsetw.o \
+bin/com/interruptmgr.o \
+bin/com/interrupts_router.o
 		
 
 all:

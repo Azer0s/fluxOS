@@ -1,5 +1,6 @@
 #include <common/types.h>
 #include <core/gdt.h>
+#include <com/interruptmgr.h>
 
 // Woooh! This is our first OS feature we implement: printing!
 // 0xb8000 is the x86 register for Text-Screen-VRAM.
@@ -72,10 +73,23 @@ extern "C" void ctor_init(){
 
 extern "C" void __main__(const void* multiboot_struct, uint32_t /*multiboot magic*/){
     clear();
-    printf("Hello\tworld!\n");
-    printf("Hello\tworld!\n");
+    printf(" .o88o. oooo                            .oooooo.    .oooooo..o\n"); 
+    printf(" 888 `  `888                           d8P'  `Y8b  d8P'    `Y8\n"); 
+    printf("o888oo   888  oooo  oooo  oooo    ooo 888      888 Y88bo.     \n"); 
+    printf(" 888     888  `888  `888   `88b..8P'  888      888  ` Y8888o. \n"); 
+    printf(" 888     888   888   888     Y888'    888      888      ` Y88b\n"); 
+    printf(" 888     888   888   888   .o8 '88b   `88b    d88' oo     .d8P\n"); 
+    printf("o888o   o888o  `V88V V8P' o88'   888o  `Y8bood8P'  8oo8888888P\n"); 
+                                                               
+                                                               
+                                                               
+                                                  
+                                
 
     GlobalDescriptorTable gdt;
+    InterruptManager interrupts(&gdt);
+
+    interrupts.enable();
 
     while(1);
 }
