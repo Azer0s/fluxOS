@@ -6,6 +6,7 @@ before_install:
   - sudo apt install make -y
   - sudo apt install gcc -y
   - sudo apt install xorriso -y
+  - sudo apt install grub2 -y
   - sudo apt install grub-legacy-ec2 -y
 
 script:
