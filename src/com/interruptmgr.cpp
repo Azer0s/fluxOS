@@ -3,6 +3,7 @@
 void printf(char* str);
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
+InterruptManager* InterruptManager::instance = 0x0;
 
 InterruptManager::InterruptManager(GlobalDescriptorTable* gdt) : picMasterCommand(0x20), picMasterData(0x21), picSlaveCommand(0xA0), picSlaveData(0xA1){
     uint16_t codeSegment = gdt->getCodeSegmentOffset();
@@ -40,7 +41,19 @@ InterruptManager::InterruptManager(GlobalDescriptorTable* gdt) : picMasterComman
 InterruptManager::~InterruptManager(){}
 
 void InterruptManager::enable(){
+    if(instance != 0x0){
+        instance->disable();
+    }
+    instance = this;
     asm("sti");
+}
+
+void InterruptManager::disable(){
+    if(instance == this){
+        instance->disable();
+        instance = this;
+        asm("sti");
+    }   
 }
 
 uint32_t InterruptManager::handle(uint8_t interruptId, uint32_t esp){

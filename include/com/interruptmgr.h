@@ -19,6 +19,7 @@ class InterruptManager{
             uint32_t base;
         } __attribute__((packed));
 
+        static InterruptManager* instance;
         static GateDescriptor interruptDescriptorTable[256];
         static void setInterruptDescriptorTableEntry(uint8_t interruptId, uint16_t gtd_codeOffset, void (*handler)(), uint8_t descriptorPrivilegeLevel, uint8_t descriptorType);
 
@@ -33,7 +34,10 @@ class InterruptManager{
         ~InterruptManager();
 
         void enable();
+        
         static uint32_t handle(uint8_t interruptId, uint32_t esp /*current stack pointer*/);
+        uint32_t doHandle(uint8_t interruptId, uint32_t esp /*current stack pointer*/);
+
         static void ignoreInterruptRequest();
         static void handleInterruptRequest0x00();
         static void handleInterruptRequest0x01();
