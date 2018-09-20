@@ -5,7 +5,23 @@
 #include <com/port.h>
 #include <core/gdt.h>
 
+class InterruptManager;
+
+class InterruptHandler{
+    protected:
+        uint8_t interruptId;
+        InterruptManager* interruptManager;
+
+        InterruptHandler(uint8_t interruptId, InterruptManager* interruptManager);
+        ~InterruptHandler();
+
+    public:
+        uint32_t handle(uint32_t esp);
+};
+
 class InterruptManager{
+    friend class InterruptHandler;
+
     protected:
         struct GateDescriptor{
             uint16_t handlerAddress_lo;
@@ -28,12 +44,15 @@ class InterruptManager{
         Port8bSlow picSlaveCommand;
         Port8bSlow picSlaveData;
 
+        InterruptHandler* handlers[256];
+
     public:
 
         InterruptManager(GlobalDescriptorTable* gdt);
         ~InterruptManager();
 
         void enable();
+        void disable();
         
         static uint32_t handle(uint8_t interruptId, uint32_t esp /*current stack pointer*/);
         uint32_t doHandle(uint8_t interruptId, uint32_t esp /*current stack pointer*/);

@@ -2,6 +2,28 @@
 
 void printf(char* str);
 
+#pragma region InterruptHandler
+
+InterruptHandler::InterruptHandler(uint8_t interruptId, InterruptManager* interruptManager){
+    this->interruptId = interruptId;
+    this->interruptManager = interruptManager;
+    interruptManager->handlers[interruptId] = this;
+}
+
+InterruptHandler::~InterruptHandler(){
+    if(interruptManager->handlers[interruptId] == this){
+        interruptManager->handlers[interruptId] = 0x0;
+    }
+}
+
+uint32_t InterruptHandler::handle(uint32_t esp){
+    return esp;
+}
+
+#pragma endregion InterruptHandler
+
+#pragma region InterruptManager
+
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::instance = 0x0;
 
@@ -10,6 +32,7 @@ InterruptManager::InterruptManager(GlobalDescriptorTable* gdt) : picMasterComman
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
 
     for(uint16_t i = 0; i < 256; i++){
+        handlers[i] = 0x0;
         setInterruptDescriptorTableEntry(i, codeSegment, &ignoreInterruptRequest, 0, IDT_INTERRUPT_GATE);
     }
 
@@ -50,14 +73,40 @@ void InterruptManager::enable(){
 
 void InterruptManager::disable(){
     if(instance == this){
-        instance->disable();
-        instance = this;
-        asm("sti");
+        instance = 0x0;
+        asm("cli");
     }   
 }
 
 uint32_t InterruptManager::handle(uint8_t interruptId, uint32_t esp){
-    printf("INTERRUPT\n");
+    if(instance != 0x0){
+        return instance->doHandle(interruptId, esp);
+    }
+
+    return esp;
+}
+
+uint32_t InterruptManager::doHandle(uint8_t interruptId, uint32_t esp){
+
+    if(handlers[interruptId] != 0x0){
+        esp = handlers[interruptId]->handle(esp);
+    }else if(interruptId != 0x20){
+        char* hex = "0123456789ABCDEF";
+        char* msg = "UNHANDLED INTERRUPT 0x00";
+
+        msg[22] = hex[(interruptId >> 4) & 0x0F];
+        msg[23] = hex[interruptId & 0x0F];
+
+        printf(msg);
+    }
+
+    if(0x20 <= interruptId && interruptId <= 0x30){
+        picMasterCommand.write(0x20);
+
+        if(0x28 <= interruptId){
+            picSlaveCommand.write(0x20);
+        }
+    }
 
     return esp;
 }
@@ -71,3 +120,5 @@ void InterruptManager::setInterruptDescriptorTableEntry(uint8_t interruptId, uin
     interruptDescriptorTable[interruptId].access = IDT_DESC_PRESENT |descriptorType | ((descriptorPrivilegeLevel & 3) << 5);
     interruptDescriptorTable[interruptId].reserved = 0;
 }
+
+#pragma endregion InterruptManager
