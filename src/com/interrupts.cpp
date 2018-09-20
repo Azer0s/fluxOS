@@ -1,6 +1,8 @@
-#include <com/interruptmgr.h>
+#include <com/interrupts.h>
 
-void printf(char* str);
+extern "C"{
+    #include <stdio.h>
+}
 
 #pragma region InterruptHandler
 

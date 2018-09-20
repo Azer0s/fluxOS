@@ -5,11 +5,14 @@ LINKER_SRC = src/linker.ld
 OBJECTS = bin/main.o \
 bin/core/gdt.o \
 bin/com/port.o \
-bin/lib/memcpy.o \
-bin/lib/memset.o \
-bin/lib/memsetw.o \
-bin/com/interruptmgr.o \
-bin/com/interrupts_router.o
+bin/stdlib/memcpy.o \
+bin/stdlib/memset.o \
+bin/stdlib/memsetw.o \
+bin/stdlib/stdio.o \
+bin/stdlib/stdlib.o \
+bin/com/interrupts.o \
+bin/com/interrupts_router.o \
+bin/drivers/keyboard.o
 		
 
 all:
@@ -28,13 +31,17 @@ clear:
 	@mkdir bin
 	@mkdir bin/core
 	@mkdir bin/com
-	@mkdir bin/lib
+	@mkdir bin/stdlib
+	@mkdir bin/drivers
 
 kernel:
 	@echo
 	@echo "\033[4m\033[1mBuilding kernel\033[0m"
 	@echo
 	@$(foreach bin,$(OBJECTS),$(MAKE) $(bin);)
+
+bin/%.o: src/%.c
+	@gcc -m32 -Iinclude -nostdlib -fno-builtin -fno-exceptions -fno-leading-underscore -c -o  $@ $<
 
 bin/%.o: src/%.cpp
 	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -c -o  $@ $<

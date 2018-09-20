@@ -1,7 +1,7 @@
 #ifndef __FLUX__PORT_H
 #define __FLUX__PORT_H
 
-#include <common/types.h>
+#include <stdint.h>
 
 class Port{
     protected:

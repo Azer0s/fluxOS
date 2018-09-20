@@ -1,7 +1,7 @@
-#ifndef __FLUX__INTERRUPTMGR_H
-#define __FLUX__INTERRUPTMGR_H
+#ifndef __FLUX__INTERRUPTS_H
+#define __FLUX__INTERRUPTS_H
 
-#include <common/types.h>
+#include <stdint.h>
 #include <com/port.h>
 #include <core/gdt.h>
 
@@ -16,7 +16,7 @@ class InterruptHandler{
         ~InterruptHandler();
 
     public:
-        uint32_t handle(uint32_t esp);
+        virtual uint32_t handle(uint32_t esp);
 };
 
 class InterruptManager{

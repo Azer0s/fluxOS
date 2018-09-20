@@ -1,7 +1,7 @@
 #ifndef __FLUX__GDT_H
 #define __FLUX__GDT_H
 
-#include <common/types.h>
+#include <stdint.h>
 
 class GlobalDescriptorTable{
     public:

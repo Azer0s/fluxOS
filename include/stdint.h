@@ -1,5 +1,5 @@
-#ifndef __FLUX__TYPES_H
-#define __FLUX__TYPES_H
+#ifndef __FLUX__STDINT_H
+#define __FLUX__STDINT_H
 
 typedef char int8_t;
 typedef unsigned char uint8_t;
