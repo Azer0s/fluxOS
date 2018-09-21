@@ -41,7 +41,7 @@ kernel:
 	@$(foreach bin,$(OBJECTS),$(MAKE) $(bin);)
 
 bin/%.o: src/%.c
-	@gcc -m32 -Iinclude -nostdlib -fno-builtin -fno-exceptions -fno-leading-underscore -c -o  $@ $<
+	@gcc -m32 -Iinclude -nostdlib -std=c99 -fno-builtin -fno-exceptions -fno-leading-underscore -c -o  $@ $<
 
 bin/%.o: src/%.cpp
 	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -c -o  $@ $<
