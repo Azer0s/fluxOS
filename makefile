@@ -7,7 +7,6 @@ bin/core/gdt.o \
 bin/com/port.o \
 bin/stdlib/memcpy.o \
 bin/stdlib/memset.o \
-bin/stdlib/memsetw.o \
 bin/stdlib/stdio.o \
 bin/stdlib/stdlib.o \
 bin/stdlib/string.o \

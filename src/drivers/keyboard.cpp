@@ -54,7 +54,6 @@ void KeyboardLayout::loadLayout(char* countrycode){
         keys[0x17] = "i";
         keys[0x18] = "o";
         keys[0x19] = "p";
-        keys[0x1A] = "ü";
         keys[0x1E] = "a";
         keys[0x1F] = "s";
         keys[0x20] = "d";
@@ -64,8 +63,6 @@ void KeyboardLayout::loadLayout(char* countrycode){
         keys[0x24] = "j";
         keys[0x25] = "k";
         keys[0x26] = "l";
-        keys[0x27] = "ö";
-        keys[0x28] = "ä";
         keys[0x2C] = "y";
         keys[0x2D] = "x";
         keys[0x2E] = "c";
@@ -119,16 +116,6 @@ uint32_t KeyboardDriver::handle(uint32_t esp){
         }
 
         char* keyChar = layout->getChar(key);
-
-        if(keyChar == "\0"){
-            char* hex = "0123456789ABCDEF";
-            char* msg = "KEYBOARD 0x00\n";
-
-            msg[11] = hex[(key >> 4) & 0x0F];
-            msg[12] = hex[key & 0x0F];
-            keyChar = msg;
-        }
-
         printf(keyChar);
     }
 

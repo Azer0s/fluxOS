@@ -5,6 +5,7 @@
 
 extern "C"{
     #include <stdio.h>
+    #include <string.h>
 }
 
 // We want to use an object oriented language on bare metal
@@ -38,7 +39,7 @@ extern "C" void __main__(const void* multiboot_struct, uint32_t /*multiboot magi
 
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(&gdt);
-    
+
     KeyboardLayout layout("de-DE");
     KeyboardDriver keyboard(&interrupts,&layout);
 

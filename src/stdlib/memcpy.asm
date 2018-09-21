@@ -1,5 +1,3 @@
-; Credit to exscape for memcpy
-
 section .text
 align 4
 global memcpy

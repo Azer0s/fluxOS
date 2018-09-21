@@ -1,5 +1,3 @@
-; Credit to exscape for memset
-
 section .text
 align 4
 global memset
