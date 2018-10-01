@@ -113,8 +113,10 @@ uint32_t KeyboardDriver::handle(uint32_t esp){
         del();
     }else if(key == layout->shiftKey){
         this->shift = true;
-    }else if((key == 0xAA) && (this->shift == true)){
-        this->shift = false;
+    }else if(key == 0xAA){ //keyup
+        if(this->shift == true){
+            this->shift = false;
+        }
     }else if(key < 0x80){
         char* keyChar = layout->getChar(key);
 
