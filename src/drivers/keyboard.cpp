@@ -19,6 +19,7 @@ void KeyboardLayout::loadLayout(char* countrycode){
         printf("Countrycode set to de-DE\n");
 
         delKey = 0x0E;
+        shiftKey = 0x2A;
 
         keys[0xFA] = "";
         keys[0xC5] = "";
@@ -108,15 +109,23 @@ KeyboardDriver::~KeyboardDriver(){}
 uint32_t KeyboardDriver::handle(uint32_t esp){
     uint8_t key = dataport.read();
 
-    if(key < 0x80){
-
-        if(key == layout->delKey){
-            del();
-            return esp;
-        }
-
+    if(key == layout->delKey){
+        del();
+    }else if(key == layout->shiftKey){
+        this->shift = true;
+    }else if((key == 0xAA) && (this->shift == true)){
+        this->shift = false;
+    }else if(key < 0x80){
         char* keyChar = layout->getChar(key);
-        printf(keyChar);
+
+        if(this->shift == true){
+            //TODO: Handle shift
+            printf(" shift+");
+            printf(keyChar);
+            printf(" ");
+        }else{
+            printf(keyChar);
+        }  
     }
 
     return esp;

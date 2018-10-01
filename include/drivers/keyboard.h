@@ -17,12 +17,14 @@ class KeyboardLayout{
         void loadLayout(char* layout);
         char* getChar(uint8_t code);
         uint8_t delKey;
+        uint8_t shiftKey;
 };
 
 class KeyboardDriver : public InterruptHandler{
     Port8b dataport;
     Port8b commandport;
     KeyboardLayout* layout;
+    bool shift;
 
     public:
         KeyboardDriver(InterruptManager* InterruptManager, KeyboardLayout* layout);
