@@ -23,7 +23,7 @@ void KeyboardLayout::loadLayout(char* countrycode){
 
         keys[0xFA] = ""  ; shiftedKeys[0xFA] = ""  ; 
         keys[0xC5] = ""  ; shiftedKeys[0xC5] = ""  ; 
-        keys[0x45] = ""  ; shiftedKeys[0x45] = ""  ; 
+        keys[0x45] = ""  ; shiftedKeys[0x45] = ""  ; //TODO: Numlock
         keys[0x1C] = "\n"; shiftedKeys[0x1C] = "\n"; 
 
         keys[0x2]  = "1"; shiftedKeys[0x2]  = "!";

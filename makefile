@@ -12,7 +12,8 @@ bin/stdlib/stdlib.o \
 bin/stdlib/string.o \
 bin/com/interrupts.o \
 bin/com/interrupts_router.o \
-bin/drivers/keyboard.o
+bin/drivers/keyboard.o \
+bin/drivers/mouse.o
 		
 
 all:
@@ -44,7 +45,7 @@ bin/%.o: src/%.c
 	@gcc -m32 -Iinclude -nostdlib -std=c99 -fno-builtin -fno-exceptions -fno-leading-underscore -c -o  $@ $<
 
 bin/%.o: src/%.cpp
-	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -c -o  $@ $<
+	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -c -o  $@ $<
 
 bin/%.o: src/%.s
 	@as --32 -o $@ $<

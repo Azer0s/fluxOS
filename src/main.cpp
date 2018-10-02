@@ -2,6 +2,7 @@
 #include <core/gdt.h>
 #include <com/interrupts.h>
 #include <drivers/keyboard.h>
+#include <drivers/mouse.h>
 
 extern "C"{
     #include <stdio.h>
@@ -40,8 +41,13 @@ extern "C" void __main__(const void* multiboot_struct, uint32_t /*multiboot magi
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(&gdt);
 
+    //Activate keyboard driver
     KeyboardLayout layout("de-DE");
     KeyboardDriver keyboard(&interrupts,&layout);
+
+
+    //Activate mouse driver
+    //MouseDriver mouse(&interrupts);
 
     interrupts.enable();
 

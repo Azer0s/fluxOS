@@ -20,6 +20,7 @@ _ZN16InterruptManager26handleInterruptRequest\num\()Ev:
 
 handleInterruptRequest 0x00
 handleInterruptRequest 0x01
+handleInterruptRequest 0x0C
 
 int_bottom:
     pusha

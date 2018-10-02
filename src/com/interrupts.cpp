@@ -40,6 +40,7 @@ InterruptManager::InterruptManager(GlobalDescriptorTable* gdt) : picMasterComman
 
     setInterruptDescriptorTableEntry(0x20, codeSegment, &handleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
     setInterruptDescriptorTableEntry(0x21, codeSegment, &handleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);
+    setInterruptDescriptorTableEntry(0x2C, codeSegment, &handleInterruptRequest0x0C, 0, IDT_INTERRUPT_GATE);
 
     picMasterCommand.write(0x11);
     picSlaveCommand.write(0x11);
