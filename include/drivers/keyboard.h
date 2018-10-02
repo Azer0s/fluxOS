@@ -8,14 +8,14 @@
 #define KEYBOARD_KEYS 256
 
 class KeyboardLayout{
-    protected:
-        char* keys[KEYBOARD_KEYS];
+    char* keys[KEYBOARD_KEYS];
+    char* shiftedKeys[KEYBOARD_KEYS];
 
     public:
         KeyboardLayout(char* layout);
         ~KeyboardLayout();
         void loadLayout(char* layout);
-        char* getChar(uint8_t code);
+        char* getChar(uint8_t code, bool shift);
         uint8_t delKey;
         uint8_t shiftKey;
 };
