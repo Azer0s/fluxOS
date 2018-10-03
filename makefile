@@ -2,6 +2,26 @@ LOADER = bin/loader.o
 BINARY = bin/flux.bin
 LINKER_SRC = src/linker.ld
 
+CPP_OPTIONS = -D NO_MOUSE \
+-D HIDE_UNMAPPED_KEYS \
+-m32 \
+-Iinclude \
+-fno-use-cxa-atexit \
+-nostdlib \
+-fno-builtin \
+-fno-rtti \
+-fno-exceptions \
+-fno-leading-underscore \
+-Wno-write-strings
+
+C_OPTIONS = -m32 \
+-Iinclude \
+-nostdlib \
+-std=c99 \
+-fno-builtin \
+-fno-exceptions \
+-fno-leading-underscore
+
 OBJECTS = bin/main.o \
 bin/core/gdt.o \
 bin/com/port.o \
@@ -42,10 +62,10 @@ kernel:
 	@$(foreach bin,$(OBJECTS),$(MAKE) $(bin);)
 
 bin/%.o: src/%.c
-	@gcc -m32 -Iinclude -nostdlib -std=c99 -fno-builtin -fno-exceptions -fno-leading-underscore -c -o  $@ $<
+	@gcc $(C_OPTIONS) -c -o  $@ $<
 
 bin/%.o: src/%.cpp
-	@gcc -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -c -o  $@ $<
+	@gcc $(CPP_OPTIONS) -c -o  $@ $<
 
 bin/%.o: src/%.s
 	@as --32 -o $@ $<

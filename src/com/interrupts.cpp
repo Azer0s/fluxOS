@@ -93,7 +93,8 @@ uint32_t InterruptManager::doHandle(uint8_t interruptId, uint32_t esp){
 
     if(handlers[interruptId] != 0x0){
         esp = handlers[interruptId]->handle(esp);
-    }else if(interruptId != 0x20){
+    }
+    else if(interruptId != 0x20){
         char* hex = "0123456789ABCDEF";
         char* msg = "UNHANDLED INTERRUPT 0x00";
 

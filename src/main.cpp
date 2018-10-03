@@ -36,20 +36,29 @@ extern "C" void __main__(const void* multiboot_struct, uint32_t /*multiboot magi
     printf(" 888     888  `888  `888   `88b..8P'  888      888  ` Y8888o. \n"); 
     printf(" 888     888   888   888     Y888'    888      888      ` Y88b\n"); 
     printf(" 888     888   888   888   .o8 '88b   `88b    d88' oo     .d8P\n"); 
-    printf("o888o   o888o  `V88V V8P' o88'   888o  `Y8bood8P'  8oo8888888P\n\n\n"); 
+    printf("o888o   o888o  `V88V V8P' o88'   888o  `Y8bood8P'  8oo8888888P\n\n\n");
 
     GlobalDescriptorTable gdt;
+
+    #pragma region Drivers
     InterruptManager interrupts(&gdt);
 
     //Activate keyboard driver
     KeyboardLayout layout("de-DE");
     KeyboardDriver keyboard(&interrupts,&layout);
 
-
     //Activate mouse driver
-    //MouseDriver mouse(&interrupts);
+    #ifndef NO_MOUSE
+
+    MouseDriver mouse(&interrupts);
+    
+    #endif
 
     interrupts.enable();
+
+    #pragma endregion Drivers
+
+    printf("\nflux>");
 
     while(1);
 }

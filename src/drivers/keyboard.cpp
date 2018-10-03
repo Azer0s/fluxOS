@@ -20,6 +20,12 @@ void KeyboardLayout::loadLayout(char* countrycode){
 
         delKey = 0x0E;
         shiftKey = 0x2A;
+        space = 0x039;
+
+        up = 0x48;
+        down = 0x50;
+        left = 0x4B;
+        right = 0x4D;
 
         keys[0xFA] = ""  ; shiftedKeys[0xFA] = ""  ; 
         keys[0xC5] = ""  ; shiftedKeys[0xC5] = ""  ; 
@@ -86,6 +92,18 @@ char* KeyboardLayout::getChar(uint8_t code, bool shift){
             }
         }
     }
+
+    #ifndef HIDE_UNMAPPED_KEYS
+
+    char* hex = "0123456789ABCDEF";
+    char* msg = "\nKEY: 0x00\n";
+
+    msg[9] = hex[(code >> 4) & 0x0F];
+    msg[10] = hex[code & 0x0F];
+    printf(msg);
+
+    #endif
+
     return "\0";
 }
 
@@ -117,22 +135,48 @@ uint32_t KeyboardDriver::handle(uint32_t esp){
 
     if(key == layout->delKey){
         del();
-    }else if(key == layout->shiftKey){
+    }
+    else if(key == layout->shiftKey){
         this->shift = true;
-    }else if(key == 0xAA){ //keyup
+    }
+    else if(key == 0xAA){ //keyup
         if(this->shift == true){
             this->shift = false;
         }
-    }else if(key < 0x80){
+    }
+    else if(key == layout->left){
+        int distance_left = 5;
+        if(getLines() > 0){
+            distance_left = 0;
+        }
+        moveCursorLeft(distance_left);
+    }
+    else if(key == layout->right){
+        moveCursorRight(0);
+    }
+    else if(key == layout->up){
+        //TODO: Manage command history
+    }
+    else if(key == layout->down){
+        //TODO: Manage command history
+    }
+    else if(key == layout->space){
+        printf(" ");
+    }
+    else if(key < 0x80){
         char* keyChar;
         if(this->shift == true){
             keyChar = layout->getChar(key, true);
         }else{
             keyChar = layout->getChar(key, false);
-        } 
+        }
 
         if(keyChar != "\0"){
-            printf(keyChar);
+            if(keyChar == "\n"){
+                printf("\nflux>");
+            }else{
+                printf(keyChar);
+            }
         }
     }
 
