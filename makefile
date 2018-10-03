@@ -2,9 +2,9 @@ LOADER = bin/loader.o
 BINARY = bin/flux.bin
 LINKER_SRC = src/linker.ld
 
-CPP_OPTIONS = -D NO_MOUSE \
+CPP_OPTIONS = -m32 \
+-D NO_MOUSE \
 -D HIDE_UNMAPPED_KEYS \
--m32 \
 -Iinclude \
 -fno-use-cxa-atexit \
 -nostdlib \
