@@ -2,13 +2,13 @@
 #define __FLUX__STDLIB_H
 
 //double atof(const char *s);
-//int atoi(const char *s);
+int atoi(const char*);
 //long atol(const char *s)
 //double strtod(const char *s, char **endp);
 //long strtol(const char *s, char **endp, int base);
 //unsigned long strtoul(const char *s, char **endp, int base);
 int rand(void);
-void srand(unsigned int seed);
+void srand(unsigned int);
 char* itoa(int, char*, int);
 //void *calloc(size_t nobj, size_t size);
 //void *malloc(size_t size);

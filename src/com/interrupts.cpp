@@ -2,6 +2,8 @@
 
 extern "C"{
     #include <stdio.h>
+    #include <string.h>
+    #include <stdlib.h>
 }
 
 #pragma region InterruptHandler
@@ -95,14 +97,11 @@ uint32_t InterruptManager::doHandle(uint8_t interruptId, uint32_t esp){
         esp = handlers[interruptId]->handle(esp);
     }
     else if(interruptId != 0x20){
-        //TODO: Change to itoa
-        char* hex = "0123456789ABCDEF";
-        char* msg = "UNHANDLED INTERRUPT 0x00";
-
-        msg[22] = hex[(interruptId >> 4) & 0x0F];
-        msg[23] = hex[interruptId & 0x0F];
-
-        printf(msg);
+        char str[100];
+        itoa(interruptId, str, 16);
+        printf("\nUNHANDLED INTERRUPT 0x");
+        printf(str);
+        printf("\n");
     }
 
     if(0x20 <= interruptId && interruptId <= 0x30){

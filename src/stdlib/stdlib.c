@@ -34,7 +34,7 @@ char* itoa(int num, char* str, int base)
     int i = 0; 
     bool isNegative = false; 
   
-    /* Handle 0 explicitely, otherwise empty string is printed for 0 */
+    // Handle 0 explicitely
     if (num == 0) 
     { 
         str[i++] = '0'; 
@@ -59,8 +59,9 @@ char* itoa(int num, char* str, int base)
     } 
   
     // If number is negative, append '-' 
-    if (isNegative) 
-        str[i++] = '-'; 
+    if (isNegative){
+        str[i++] = '-';
+    }
   
     str[i] = '\0'; // Append string terminator 
   
@@ -68,4 +69,16 @@ char* itoa(int num, char* str, int base)
     reverse(str); 
   
     return str; 
+}
+
+int atoi(const char* str) 
+{ 
+    int res = 0;
+   
+    // Iterate through all characters of input string 
+    for (int i = 0; str[i] != '\0'; ++i){
+        res = res*10 + str[i] - '0';
+    }
+
+    return res; 
 } 
