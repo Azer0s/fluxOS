@@ -9,6 +9,7 @@
 //unsigned long strtoul(const char *s, char **endp, int base);
 int rand(void);
 void srand(unsigned int seed);
+char* itoa(int, char*, int);
 //void *calloc(size_t nobj, size_t size);
 //void *malloc(size_t size);
 //void *realloc(void *p, size_t size);

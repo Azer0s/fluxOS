@@ -12,3 +12,9 @@ int strcmp(const char *str1, const char *str2)
     } while (s1 == s2);
     return (s1 < s2) ? -1 : (s1 > s2);
 }
+
+size_t strlen(const char *s) {
+    size_t i;
+    for (i = 0; s[i] != '\0'; i++) ;
+    return i;
+}

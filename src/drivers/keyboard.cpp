@@ -3,6 +3,7 @@
 extern "C"{
     #include <stdio.h>
     #include <string.h>
+    #include <stdlib.h>
 }
 
 #pragma region KeyboardLayout
@@ -95,12 +96,10 @@ char* KeyboardLayout::getChar(uint8_t code, bool shift){
 
     #ifndef HIDE_UNMAPPED_KEYS
 
-    char* hex = "0123456789ABCDEF";
-    char* msg = "\nKEY: 0x00\n";
-
-    msg[9] = hex[(code >> 4) & 0x0F];
-    msg[10] = hex[code & 0x0F];
-    printf(msg);
+    char str[100];
+    printf("\nKEY: 0x");
+    itoa(code, str, 16);
+    printf(str);
 
     #endif
 
