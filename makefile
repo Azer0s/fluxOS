@@ -30,6 +30,7 @@ bin/stdlib/memset.o \
 bin/stdlib/stdio.o \
 bin/stdlib/stdlib.o \
 bin/stdlib/string.o \
+bin/stdlib/ctype.o \
 bin/com/interrupts.o \
 bin/com/interrupts_router.o \
 bin/drivers/keyboard.o \

@@ -7,6 +7,7 @@
 extern "C"{
     #include <stdio.h>
     #include <string.h>
+    #include <stdlib.h>
 }
 
 // We want to use an object oriented language on bare metal

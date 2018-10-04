@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 static unsigned long int RAND_NEXT = 1;
 
@@ -81,4 +82,39 @@ int atoi(const char* str)
     }
 
     return res; 
-} 
+}
+
+long int atol(const char* str)
+{
+    long int result = 0;
+    uint32_t digit;
+    int32_t sign;
+
+    while (isspace(*str)) {
+	    str += 1;
+    }
+
+    if (*str == '-') {
+        sign = 1;
+        str += 1;
+    } else {
+	    sign = 0;
+        if (*str == '+') {
+            str += 1;
+        }
+    }
+
+    for ( ; ; str += 1) {
+	    digit = *str - '0';
+        if (digit > 9) {
+            break;
+        }
+	    result = (10*result) + digit;
+    }
+
+    if (sign) {
+	    return -result;
+    }
+
+    return result;
+}
