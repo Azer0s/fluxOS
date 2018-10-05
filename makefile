@@ -22,6 +22,12 @@ C_OPTIONS = -m32 \
 -fno-exceptions \
 -fno-leading-underscore
 
+UNIX_ASM_OPTIONS = --32
+
+NASM_OPTIONS = -f elf \
+-F dwarf \
+-g
+
 OBJECTS = bin/main.o \
 bin/core/gdt.o \
 bin/com/port.o \
@@ -69,10 +75,10 @@ bin/%.o: src/%.cpp
 	@gcc $(CPP_OPTIONS) -c -o  $@ $<
 
 bin/%.o: src/%.s
-	@as --32 -o $@ $<
+	@as $(UNIX_ASM_OPTIONS) -o $@ $<
 
 bin/%.o: src/%.asm
-	@nasm -o $@ $< -f elf -F dwarf -g
+	@nasm -o $@ $< $(NASM_OPTIONS)
 
 loader:
 	@echo
